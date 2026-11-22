@@ -21,9 +21,6 @@ on:
         required: false
         default: false
         type: boolean
-  push:
-    branches:
-      - feat/cloudflare-pages
 
 permissions:
   contents: read
@@ -34,14 +31,14 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/cloudflare-pages'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      RELEASE_TAG: ${{ inputs.release_tag || 'atlas-2j5x-2026-11-19-a11-175-ui008' }}
-      REVIEWED_SHA: ${{ inputs.bundle_sha256 || 'a70465a6c497377a94edb1173eafc2ce6129a4587b1d1b76986c34ab0a156717' }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
+      REVIEWED_SHA: ${{ inputs.bundle_sha256 }}
       CF_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
-      CF_BRANCH: ${{ inputs.branch || 'preview-2j5x' }}
+      CF_BRANCH: ${{ inputs.branch }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
